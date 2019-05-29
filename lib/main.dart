@@ -2,73 +2,56 @@ import 'package:flutter/material.dart';
 
 void main(){
   runApp(new MaterialApp(
-    home: MyApp(),
-    )
-  );
+    home: MyButtom(),
+  ));
 }
 
-class MyApp extends StatelessWidget{
+class MyButtom extends StatefulWidget{
+  @override
+  _MyButtomState createState() => new _MyButtomState();
+}
+
+class _MyButtomState extends State<MyButtom>{
+  String text = "Nick";
+  List<String> vector = ["Juan", "Sebastian", "JotaSiete"];
+  int cont = 0;
+
+  void onPressButton() {
+    setState(() {   //Actualiza y renderiza el widget de nuevo
+      cont++;
+      if(cont == 3) {
+        cont = 0;
+        text = vector[cont];
+      }
+      else{
+        text = vector[cont];
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    final TextStyle textStyle = new TextStyle(
-        color: Colors.lightBlue, fontSize: 15.0
-    );
-
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("StatelessWidget"),
+        backgroundColor: Colors.amber,
+        title: new Text("Stateful Widget"),
       ),
       body: new Container(
         child: Center(
           child: new Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,       //Hace que ocupe el ancho de la pantalla
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new MyCard(                   //Clase creada
-                title: new Text("¡Me gusta!", style: textStyle),
-                icon: new Icon(Icons.favorite, size: 40.0, color: Colors.red),
-              ),
-              new MyCard(
-                title: new Text("Trabaaajar", style: textStyle),
-                icon: new Icon(Icons.build, size: 40.0, color: Colors.grey),
-              ),
-              new MyCard(
-                title: new Text("In my mind", style: textStyle),
-                icon: new Icon(Icons.mood, size: 40.0, color: Colors.amber),
-              ),
-              new MyCard(
-                title: new Text("¡Cada día!", style: textStyle),
-                icon: new Icon(Icons.timeline, size: 40.0, color: Colors.green),
+              new Text(text, style: new TextStyle(fontSize: 30.0)),  //Variable text que vamos variando en el metodo onPress
+              new Padding(padding: new EdgeInsets.all(5.0)),
+              new RaisedButton(        //Boton
+                child: new Text("Cambio", style: new TextStyle(color: Colors.white, fontSize: 15.0)),
+                color: Colors.amber[600],
+                onPressed: onPressButton,
               )
-            ],
-          ),
+            ]
+          )
         )
       ),
-    );
-
-  }
-}
-
-
-class MyCard extends StatelessWidget{
-
-  final Widget icon;
-  final Widget title;
-
-  MyCard({this.icon, this.title});  // Crear metodo para recibir parametros
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      padding: const EdgeInsets.only(bottom: 3.0),
-      child: new Card(
-        child: new Container(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[this.title, this.icon],   //Colocando parametros
-          ),
-        )
-      )
     );
   }
 }
