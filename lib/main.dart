@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
 
     final TextStyle textStyle = new TextStyle(
-        color: Colors.black, fontSize: 15.0
+        color: Colors.lightBlue, fontSize: 15.0
     );
 
     return new Scaffold(
@@ -25,19 +25,19 @@ class MyApp extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.stretch,       //Hace que ocupe el ancho de la pantalla
             children: <Widget>[
               new MyCard(                   //Clase creada
-                title: new Text("Me gusta", style: textStyle),
+                title: new Text("¡Me gusta!", style: textStyle),
                 icon: new Icon(Icons.favorite, size: 40.0, color: Colors.red),
               ),
               new MyCard(
-                title: new Text("Trabajar", style: textStyle),
+                title: new Text("Trabaaajar", style: textStyle),
                 icon: new Icon(Icons.build, size: 40.0, color: Colors.grey),
               ),
               new MyCard(
-                title: new Text("En mi mente", style: textStyle),
+                title: new Text("In my mind", style: textStyle),
                 icon: new Icon(Icons.mood, size: 40.0, color: Colors.amber),
               ),
               new MyCard(
-                title: new Text("Cada día", style: textStyle),
+                title: new Text("¡Cada día!", style: textStyle),
                 icon: new Icon(Icons.timeline, size: 40.0, color: Colors.green),
               )
             ],
