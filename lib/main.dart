@@ -2,25 +2,43 @@ import 'package:flutter/material.dart';
 
 void main(){
   runApp(new MaterialApp(
-    home: MyTextField(),
+    home: MyDialog(),
   ));
 }
 
-class MyTextField extends StatefulWidget{
+class MyDialog extends StatefulWidget{
   @override
-  _MyTextFieldState createState() => new _MyTextFieldState();
+  _MyDialog createState() => new _MyDialog();
 }
 
-class _MyTextFieldState extends State<MyTextField>{
-  String text = "";
+enum DialogAction{  //declaracion de variables tipo action
+  yes,
+  no
+}
 
-  final TextEditingController controller = new TextEditingController();
+class _MyDialog extends State<MyDialog>{
 
-  void onSubmitted(String value){
-    print(value);
+  String _inputValue = "";
+
+  void _alertResult(DialogAction action){  //Entrada de variable tipo dialogaction, para trabajar con ella
+    print("Ha seleccionado: $action");
+  }
+
+  void _showAlert(String value){
+    AlertDialog dialog = new AlertDialog(
+      content: new Text(value),   //texto a mostrar
+      actions: <Widget>[
+        new FlatButton(onPressed: (){_alertResult(DialogAction.yes);}, child: new Text("Si")), //opciones, enviar dialog action correspondiente
+        new FlatButton(onPressed: (){_alertResult(DialogAction.no);}, child: new Text("No"))
+      ],
+    );
+
+    showDialog(context: context, child: dialog);
+  }
+
+  void _onChange(String value){
     setState((){
-      text = text + "\n" + value;
-      controller.text = "";
+      _inputValue = value;
     });
   }
 
@@ -28,20 +46,22 @@ class _MyTextFieldState extends State<MyTextField>{
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Text Field",),
-        backgroundColor: Colors.red,
+        title: new Text("Alert Dialog"),
       ),
       body: new Container(
-        padding: const EdgeInsets.all(10.0),
         child: new Center(
-          child: new Column(            
+          child: new Column(
             children: <Widget>[
               new TextField(
-                decoration: new InputDecoration(hintText: "Ingrese numero"),
-                onSubmitted: (String value){onSubmitted(value);},
-                controller: controller,
+                decoration: new InputDecoration(
+                  hintText: "Ingrese texto"
+                ),
+                onChanged: (String value) {_onChange(value);}
               ),
-              new Text(text)
+              new RaisedButton(
+                child: new Text("Show Alert"),
+                onPressed: () {_showAlert(_inputValue);}
+              )
             ],
           ),
         ),
