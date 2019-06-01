@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Call extends StatelessWidget{
+
+  static const String routeName = "/call";
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: new AppBar(title: new Text("Call"),),
       body: new Container(
         child :new Center(
           child: new Column(

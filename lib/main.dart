@@ -1,58 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:fllutter_app/pages/call.dart';
+import 'package:fllutter_app/pages/fav.dart';
 
 void main(){
   runApp(new MaterialApp(
-    home: MyStepper(),
+    home: MyDrawer(),
+    routes: <String, WidgetBuilder>{
+      Call.routeName: (BuildContext context) => new Call(),
+      Fav.routeName: (BuildContext context) => new Fav(),
+    },
   ));
 }
 
-class MyStepper extends StatefulWidget{
+class MyDrawer extends StatefulWidget{
   @override
-  _MyStepperState createState() => new _MyStepperState();
+  _MyDrawerState createState() => new _MyDrawerState();
 }
 
-class _MyStepperState extends State<MyStepper>{
+class _MyDrawerState extends State<MyDrawer>{
 
-  int _currentStep = 0;
-  List<Step> mySteps = [
-    new Step(title: new Text("Paso 1"), content: new Text("Aprendiendo")),
-    new Step(title: new Text("Paso 2"), content: new Text("Flutter")),
-    new Step(title: new Text("Paso 3"), content: new Text(";)")),
-  ];
+  Drawer _getDrawer(BuildContext context) {
+
+    var header = new DrawerHeader(child: new Text("Header"));
+    var info = new AboutListTile(
+      child: new Text("Informacion"),
+      applicationIcon: new Icon(Icons.face),
+      applicationVersion: "1",
+      applicationName: "Pruebas",
+      icon: new Icon(Icons.info),
+    );
+
+    ListTile _getItem(Icon icono, String descripcion, String ruta) {
+      return new ListTile(
+        leading: icono,
+        title: new Text(descripcion),
+        onTap: () {
+          setState(() {
+            Navigator.of(context).pushNamed(ruta);
+          });
+        },
+      );
+    }
+
+    ListView listView = new ListView(
+      children: <Widget>[
+        header,
+        _getItem(new Icon(Icons.call), "Llamar", "/call"),
+        _getItem(new Icon(Icons.favorite), "Fav", "/fav"),
+        info
+      ],
+    );
+
+    return new Drawer(
+      child: listView
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("My Stepper"),
-      ),
-      body: new Container(
-        child: new Stepper(
-          currentStep: this._currentStep,
-          steps: mySteps,
-          //type: StepperType.horizontal,
-          onStepContinue: (){
-            setState(() {
-              if(_currentStep < mySteps.length - 1) {
-                _currentStep = _currentStep + 1;
-              }
-              else{
-                _currentStep = 0;
-              }
-            });
-          },
-          onStepCancel: (){
-            setState(() {
-              _currentStep = 0;
-            });
-          },
-          onStepTapped: (step){
-            setState(() {
-              _currentStep = step;
-            });
-          },
-        )
-      ),
+      appBar: new AppBar(title: new Text("Menu Izquierda"),),
+      drawer: new Drawer(child: _getDrawer(context)),  //menu izquierda
     );
   }
 }
