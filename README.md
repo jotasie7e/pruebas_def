@@ -1,6 +1,6 @@
-# fllutter_app
+# Practicando en Flutter & Git
 
-A new Flutter application.
+Buenas practicas de programador para el buen desarrollo de proyectos.
 
 ## Getting Started
 
