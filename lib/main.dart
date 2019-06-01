@@ -1,58 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:fllutter_app/pages/radioo.dart';
+import 'package:fllutter_app/pages/nature.dart';
+import 'package:fllutter_app/pages/gamepad.dart';
+
 
 void main(){
   runApp(new MaterialApp(
-    home: MyStepper(),
+    home: MyTabs(),
   ));
 }
 
-class MyStepper extends StatefulWidget{
+class MyTabs extends StatefulWidget{
   @override
-  _MyStepperState createState() => new _MyStepperState();
+  _MyTabsState createState() => new _MyTabsState();
 }
 
-class _MyStepperState extends State<MyStepper>{
+class _MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin{
 
-  int _currentStep = 0;
-  List<Step> mySteps = [
-    new Step(title: new Text("Paso 1"), content: new Text("Aprendiendo")),
-    new Step(title: new Text("Paso 2"), content: new Text("Flutter")),
-    new Step(title: new Text("Paso 3"), content: new Text(";)")),
-  ];
+  TabController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new TabController(length: 3, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("My Stepper"),
+        title: new Text("My Tabs"),
+        backgroundColor: Colors.lightBlue,
+        bottom: new TabBar(
+          tabs: <Widget>[
+            new Tab(icon: new Icon(Icons.radio)),
+            new Tab(icon: new Icon(Icons.nature)),
+            new Tab(icon: new Icon(Icons.gamepad))
+          ],
+          controller: controller,
+        ),
       ),
-      body: new Container(
-        child: new Stepper(
-          currentStep: this._currentStep,
-          steps: mySteps,
-          //type: StepperType.horizontal,
-          onStepContinue: (){
-            setState(() {
-              if(_currentStep < mySteps.length - 1) {
-                _currentStep = _currentStep + 1;
-              }
-              else{
-                _currentStep = 0;
-              }
-            });
-          },
-          onStepCancel: (){
-            setState(() {
-              _currentStep = 0;
-            });
-          },
-          onStepTapped: (step){
-            setState(() {
-              _currentStep = step;
-            });
-          },
-        )
-      ),
+      body: new TabBarView(
+        children: <Widget>[
+          new Radioo(),
+          new Nature(),
+          new Gamepad()
+        ],
+        controller: controller
+      )
     );
   }
 }
